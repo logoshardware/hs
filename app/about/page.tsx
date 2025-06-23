@@ -2,6 +2,7 @@
 import React from "react";// Explicitly import React for TypeScript
 import Navbar from "../components/Navbar";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function AboutPage() {
   return (
@@ -27,7 +28,7 @@ export default function AboutPage() {
               Our mission is to revolutionize computing experiences by integrating cutting-edge AI, ultra-fast processors, and premium designs into every product we offer.
             </p>
             <p className="mt-4 text-lg text-gray-300 leading-relaxed">
-              Whether you're a professional, gamer, or student, we provide laptops that cater to every need. Quality, performance, and reliability are at the core of what we do.
+              Whether you&#39;re a professional, gamer, or student, we provide laptops that cater to every need. Quality, performance, and reliability are at the core of what we do.
             </p>
           </div>
         </div>
@@ -54,9 +55,11 @@ export default function AboutPage() {
           <p className="text-lg text-gray-400 max-w-3xl mx-auto mt-4">
             Be a part of the next-generation laptop revolution. Experience high performance and cutting-edge technology today.
           </p>
-          <link href="/shop/" className="mt-6 inline-block px-6 py-3 bg-blue-500 text-white rounded-lg text-lg font-semibold hover:bg-blue-600 transition">
+          <div>
+          <Link href="/shop" className="mt-6 inline-block px-6 py-3 bg-blue-500 text-white rounded-lg text-lg font-semibold hover:bg-blue-600 transition">
             Explore Our Laptops
-          </link>
+          </Link>
+          </div>
         </div>
       </div>
       
