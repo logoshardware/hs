@@ -58,12 +58,12 @@ const Cart: React.FC = () => {
   };
 
   // Calculate total price manually for verification (optional)
-  const calculateTotalPrice = () => {
-    return cart.reduce(
-      (sum, item) => sum + parseFloat(item.price.replace("$", "")) * item.quantity,
-      0
-    ).toFixed(2);
-  };
+  // const calculateTotalPrice = () => {
+  //   return cart.reduce(
+  //     (sum, item) => sum + parseFloat(item.price.replace("$", "")) * item.quantity,
+  //     0
+  //   ).toFixed(2);
+  // };
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
@@ -76,8 +76,8 @@ const Cart: React.FC = () => {
           <>
             {cart.map((item) => {
  
-              const itemPrice = item.price.replace("$", ""); // If this fails, totalItemPrice is NaN
-              const totalItemPrice = item.price.replace("$", "").replace(",","") * item.quantity;      
+              const itemPrice = item.price.replace("$","");// If this fails, totalItemPrice is NaN
+              const totalItemPrice = itemPrice.replace("$", "").replace(",","") * item.quantity;      
               return (  
                 <div
                   key={item.id}

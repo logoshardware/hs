@@ -54,9 +54,9 @@ export default function AboutPage() {
           <p className="text-lg text-gray-400 max-w-3xl mx-auto mt-4">
             Be a part of the next-generation laptop revolution. Experience high performance and cutting-edge technology today.
           </p>
-          <a href="/shop" className="mt-6 inline-block px-6 py-3 bg-blue-500 text-white rounded-lg text-lg font-semibold hover:bg-blue-600 transition">
+          <link href="/shop/" className="mt-6 inline-block px-6 py-3 bg-blue-500 text-white rounded-lg text-lg font-semibold hover:bg-blue-600 transition">
             Explore Our Laptops
-          </a>
+          </link>
         </div>
       </div>
       

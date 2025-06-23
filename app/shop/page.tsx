@@ -18,7 +18,7 @@ export default function ShopPage() {
           <div key={index} className="bg-gray-800 p-6 rounded-lg shadow-lg transition transform hover:scale-105 duration-300">
             {/* Link to Product Details Page */}
             <Link href={`/product/${product.id}`}>
-              <img
+              <Image
                 src={product.image}
                 alt={product.name}
                 className="w-full h-64 object-cover rounded-md mb-4"
