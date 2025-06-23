@@ -77,7 +77,9 @@ const Cart: React.FC = () => {
             {cart.map((item) => {
  
               const itemPrice = item.price.replace("$","");// If this fails, totalItemPrice is NaN
+              
               const totalItemPrice = itemPrice.replace("$", "").replace(",","") * item.quantity;      
+  
               return (  
                 <div
                   key={item.id}
@@ -98,6 +100,7 @@ const Cart: React.FC = () => {
                       ➖
                     </button>
                     <span className="text-lg">{item.quantity}</span>
+                     
                     <button
                       onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
                       className="bg-gray-700 text-white px-2 py-1 rounded hover:bg-gray-600"
@@ -117,7 +120,7 @@ const Cart: React.FC = () => {
             {/* Total Summary */}
             <div className="mt-4">
               <p className="text-lg font-bold text-gray-300">
-                Total Items: {getTotalItems()} | Total: ${getTotalPrice().toFixed(2)}
+                Total Items: {getTotalItems()} | Total: ${getTotalPrice()}
               </p>
               {/* Optional: Manual calculation for debugging */}
               {/* <p className="text-sm text-gray-400">Manual Total: ${calculateTotalPrice()}</p> */}

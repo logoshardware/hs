@@ -1,9 +1,20 @@
 import React from 'react';
+interface Laptop {
+  id: number;
+  name: string;
+  price: number;
+  imageUrl: string;
+  // add any other properties you expect
+}
+interface Props {
+  laptop: Laptop;
+}
 
-const LaptopCard = ({ laptop }) => {
+
+const LaptopCard = ({ laptop }: Props) => {
   return (
     <div className="laptop-card">
-      <img src={laptop.image} alt={laptop.name} className="laptop-image" />
+      <img src={laptop.imageUrl} alt={laptop.name} className="laptop-image" />
       <h3>{laptop.name}</h3>
       <p><strong>Price:</strong> {laptop.price}</p>
       <p><strong>Description:</strong> {laptop.description}</p>

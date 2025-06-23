@@ -1,16 +1,17 @@
 // /app/product/[id]/page.tsx
 "use client";
 import React, { useEffect, useState } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useCart } from "../../store/useCart"; // Adjust path if needed
 import { laptopsData } from "../../../data/laptopsData";
 import Navbar from "../../components/Navbar";
 import Link from "next/link";
+import Image from "next/image";
 // Comprehensive Laptop interface with all features
 interface Laptop {
   id: number;
   name: string;
-  price: string;
+  price: number;
   image: string;
   description: string;
   release: number; // e.g., release year
@@ -33,7 +34,6 @@ const typedLaptopsData: Laptop[] = laptopsData;
 
 export default function ProductDetailsPage() {
   const { addToCart, cart, getTotalItems } = useCart();
-  const router = useRouter();
   const pathname = usePathname();
   const [product, setProduct] = useState<Laptop | null>(null);
 
@@ -72,9 +72,11 @@ export default function ProductDetailsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
           {/* Product Image */}
           <div className="flex justify-center items-center bg-gray-800 p-6 rounded-lg shadow-xl">
-            <img
+            <Image
               src={product.image}
               alt={product.name}
+              width={300}
+              height ={200}
               className="max-w-full h-auto rounded-lg shadow-lg"
             />
           </div>

@@ -7,7 +7,6 @@ import Link from "next/link";  // Link to navigate between pages
 import { laptopsData } from "../../data/laptopsData.tsx"; // Your product data
 import Navbar from "./../components/Navbar.js";
 export default function ShopPage() {
-  const { addToCart } = useCart();
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
@@ -21,6 +20,8 @@ export default function ShopPage() {
               <Image
                 src={product.image}
                 alt={product.name}
+                width={300}
+                height={200}
                 className="w-full h-64 object-cover rounded-md mb-4"
               />
             </Link>
