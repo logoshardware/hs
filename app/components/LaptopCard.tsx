@@ -1,4 +1,8 @@
 import React from 'react';
+
+import Image from "next/image";
+
+
 interface Laptop {
   id: number;
   name: string;
@@ -14,7 +18,13 @@ interface Props {
 const LaptopCard = ({ laptop }: Props) => {
   return (
     <div className="laptop-card">
-      <img src={laptop.imageUrl} alt={laptop.name} className="laptop-image" />
+      <Image
+        src={laptop.imageUrl}
+        alt={laptop.name}
+        width={300}
+        height={200}
+        className="laptop-image"
+        />
       <h3>{laptop.name}</h3>
       <p><strong>Price:</strong> {laptop.price}</p>
       <p><strong>Description:</strong> {laptop.description}</p>
