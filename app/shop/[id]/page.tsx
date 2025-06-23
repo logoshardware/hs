@@ -14,7 +14,13 @@ const laptops = [
   { id: 10, name: "Logos Waterfall", price: "$1,899", image: "/images/asus-zenbook-duo-14.jpg", category: "creative", description: "Innovative dual-screen laptop." },
 ];
 
-export default function ProductPage({ params }: { params: { id: string } }) {
+export async function generateStaticParams() {
+  return laptops.map(laptop => ({
+    id: laptop.id.toString()
+  }));
+}
+
+export default function Page({ params }: { params: { id: string } }) {
   const laptopId = parseInt(params.id);
   const laptop = laptops.find((l) => l.id === laptopId);
 
