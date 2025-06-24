@@ -1,34 +1,11 @@
-// /app/product/[id]/page.tsx
 "use client";
 import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { useCart } from "../../store/useCart"; // Adjust path if needed
+import { useCart, Laptop, CartItem } from "../../store/useCart"; // Adjust path
 import { laptopsData } from "../../../data/laptopsData";
 import Navbar from "../../components/Navbar";
 import Link from "next/link";
 import Image from "next/image";
-// Comprehensive Laptop interface with all features
-interface Laptop {
-  id: number;
-  name: string;
-  price: number;
-  image: string;
-  description: string;
-  release: number; // e.g., release year
-  availableQuantity: number; // Stock availability
-  rating: number; // e.g., 4.5 out of 5
-  category: string; // e.g., "Gaming", "Ultrabook"
-  specifications: {
-    cpu: string;
-    ram: string;
-    storage: string;
-    screen: string;
-    battery: string;
-    weight: string;
-    gpu?: string; // Optional GPU for graphics-heavy laptops
-    os?: string; // Operating system
-  };
-}
 
 const typedLaptopsData: Laptop[] = laptopsData;
 
@@ -40,7 +17,7 @@ export default function ProductDetailsPage() {
   useEffect(() => {
     if (!pathname) return;
     const id = pathname.split("/")[2];
-    const foundProduct = typedLaptopsData.find((item) => item.id === parseInt(id));
+    const foundProduct = typedLaptopsData.find((item) => item.id === Number(id));
     setProduct(foundProduct || null);
   }, [pathname]);
 
@@ -61,7 +38,11 @@ export default function ProductDetailsPage() {
       alert("Sorry, this product is out of stock.");
       return;
     }
-    addToCart(product);
+    if (cartItem && quantityInCart >= product.availableQuantity) {
+      alert("You reached the maximum available stock for this product.");
+      return;
+    }
+    addToCart({ ...product, quantity: 1 });
     console.log("Items in cart:", getTotalItems());
   };
 
@@ -76,7 +57,7 @@ export default function ProductDetailsPage() {
               src={product.image}
               alt={product.name}
               width={300}
-              height ={200}
+              height={200}
               className="max-w-full h-auto rounded-lg shadow-lg"
             />
           </div>
@@ -89,7 +70,9 @@ export default function ProductDetailsPage() {
 
               {/* Rating */}
               <div className="flex items-center mb-4">
-                <span className="text-yellow-400">{"★".repeat(Math.floor(product.rating))}</span>
+                <span className="text-yellow-400">
+                  {"★".repeat(Math.floor(product.rating))}
+                </span>
                 <span className="text-gray-500">
                   {"★".repeat(5 - Math.floor(product.rating))}
                 </span>
@@ -108,17 +91,33 @@ export default function ProductDetailsPage() {
               <div className="mb-6">
                 <h4 className="text-xl text-blue-500 font-semibold mb-2">Specifications</h4>
                 <ul className="list-disc pl-6 text-gray-400 space-y-1">
-                  <li><strong>CPU:</strong> {product.specifications.cpu}</li>
-                  <li><strong>RAM:</strong> {product.specifications.ram}</li>
-                  <li><strong>Storage:</strong> {product.specifications.storage}</li>
-                  <li><strong>Screen:</strong> {product.specifications.screen}</li>
-                  <li><strong>Battery:</strong> {product.specifications.battery}</li>
-                  <li><strong>Weight:</strong> {product.specifications.weight}</li>
+                  <li>
+                    <strong>CPU:</strong> {product.specifications.cpu}
+                  </li>
+                  <li>
+                    <strong>RAM:</strong> {product.specifications.ram}
+                  </li>
+                  <li>
+                    <strong>Storage:</strong> {product.specifications.storage}
+                  </li>
+                  <li>
+                    <strong>Screen:</strong> {product.specifications.screen}
+                  </li>
+                  <li>
+                    <strong>Battery:</strong> {product.specifications.battery}
+                  </li>
+                  <li>
+                    <strong>Weight:</strong> {product.specifications.weight}
+                  </li>
                   {product.specifications.gpu && (
-                    <li><strong>GPU:</strong> {product.specifications.gpu}</li>
+                    <li>
+                      <strong>GPU:</strong> {product.specifications.gpu}
+                    </li>
                   )}
                   {product.specifications.os && (
-                    <li><strong>OS:</strong> {product.specifications.os}</li>
+                    <li>
+                      <strong>OS:</strong> {product.specifications.os}
+                    </li>
                   )}
                 </ul>
               </div>
@@ -136,10 +135,15 @@ export default function ProductDetailsPage() {
 
             {/* Price and Add to Cart */}
             <div className="flex items-center justify-between">
-              <span className="text-3xl font-bold text-blue-500">{product.price}</span>
+              <span className="text-3xl font-bold text-blue-500">${Number(product.price).toFixed(2)}</span>
               <Link href={`/cart`}>
-                <button style={{ "backgroundColor": "rgba(21, 128, 61, 0.85)", "borderRadius":"5px"}} className={"bg-blue-500 text-white hover:bg-blue-600 p-2.5 color-green-50 radius-5 rounded-sm"} > View Cart </button>
-            </Link>
+                <button
+                  style={{ backgroundColor: "rgba(21, 128, 61, 0.85)", borderRadius: "5px" }}
+                  className="bg-blue-500 text-white hover:bg-blue-600 p-2.5 rounded-sm"
+                >
+                  View Cart
+                </button>
+              </Link>
               <button
                 className={`px-6 py-3 rounded-lg font-semibold transition duration-200 ${
                   isOutOfStock
@@ -151,7 +155,6 @@ export default function ProductDetailsPage() {
               >
                 {isOutOfStock ? "Out of Stock" : "Add to Cart"}
               </button>
-              
             </div>
 
             {/* Cart Status */}

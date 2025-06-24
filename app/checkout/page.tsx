@@ -1,4 +1,3 @@
-// /app/checkout/page.tsx
 "use client";
 import React, { useState } from "react";
 import { useCart } from "../store/useCart";
@@ -16,7 +15,7 @@ interface FormData {
 }
 
 export default function CheckoutPage() {
-  const { cart = [], getTotalPrice, clearCart } = useCart(); // Added clearCart
+  const { cart = [], clearCart } = useCart(); // Removed getTotalPrice
   const router = useRouter();
 
   const [formData, setFormData] = useState<FormData>({
@@ -86,6 +85,16 @@ export default function CheckoutPage() {
     router.push("/"); // Redirect to home page
   };
 
+  // Calculate total price from cart items
+  const totalPrice = cart.reduce((total, item) => {
+    // If price is a string, remove $ and commas, then convert to number
+    const priceNumber =
+      typeof item.price === "string"
+        ? Number(item.price.replace(/[$,]/g, ""))
+        : item.price;
+    return total + priceNumber * item.quantity;
+  }, 0);
+
   return (
     <div className="max-w-4xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6">Checkout 🛒</h1>
@@ -101,14 +110,17 @@ export default function CheckoutPage() {
                   {item.name} (x{item.quantity})
                 </span>
                 <span>
-                  ${(parseFloat(item.price.replace("$", "")) * item.quantity).toFixed(2)}
+                  ${(typeof item.price === "string" 
+                    ? (parseFloat(item.price.replace(/[$,]/g, "")) * item.quantity).toFixed(2)
+                    : (item.price * item.quantity).toFixed(2)
+                  )}
                 </span>
               </li>
             ))}
           </ul>
         )}
         <p className="text-lg font-bold mt-4">
-          Total: ${getTotalPrice().toFixed(2)}
+          Total: ${totalPrice.toFixed(2)}
         </p>
       </div>
       <form onSubmit={handleCheckout} className="bg-white p-6 rounded-lg shadow-lg">

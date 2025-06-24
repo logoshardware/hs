@@ -1,15 +1,27 @@
-"use client";
-import { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, ReactNode } from "react";
 
-// Create a context with a default value of null
-const CartContext = createContext(null);
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  // Add other product properties as needed
+}
 
-// CartProvider component that provides the cart state
-export function CartProvider({ children }) {
-  const [cart, setCart] = useState([]);
+interface CartContextType {
+  cart: Product[];
+  addToCart: (product: Product) => void;
+}
 
-  // Function to add an item to the cart
-  const addToCart = (product) => {
+const CartContext = createContext<CartContextType | null>(null);
+
+interface CartProviderProps {
+  children: ReactNode;
+}
+
+export function CartProvider({ children }: CartProviderProps) {
+  const [cart, setCart] = useState<Product[]>([]);
+
+  const addToCart = (product: Product) => {
     setCart((prevCart) => [...prevCart, product]);
   };
 
@@ -20,11 +32,8 @@ export function CartProvider({ children }) {
   );
 }
 
-// Custom hook to access the cart context
 export function useCart() {
   const context = useContext(CartContext);
-  
-  // If context is not available (useCart is used outside of CartProvider)
   if (!context) {
     throw new Error("useCart must be used within a CartProvider");
   }

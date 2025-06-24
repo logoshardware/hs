@@ -1,14 +1,40 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const laptops = [/* ...twój array... */];
 
+const laptops = [
+  { id: 1, name: "Logos Sun", price: "$1,599", image: "/images/laptop-a.webp", category: "gaming", description: "A powerful gaming laptop." },
+  { id: 2, name: "Logos Bright", price: "$1,799", image: "/images/laptop-b.webp", category: "business", description: "Premium ultrabook." },
+  { id: 3, name: "Logos Vinted", price: "$2,499", image: "/images/macbook-pro-16.jpg", category: "creative", description: "Apple’s high-end laptop." },
+  { id: 4, name: "Logos Sharp", price: "$2,199", image: "/images/razer-blade-15.jpg", category: "gaming", description: "Thin and powerful gaming laptop." },
+  { id: 5, name: "Logos Sen", price: "$1,599", image: "/images/hp-spectre-x360.jpg", category: "business", description: "Versatile 2-in-1 laptop." },
+  { id: 6, name: "Logos Mighty", price: "$1,399", image: "/images/acer-predator-helios-300.jpg", category: "gaming", description: "Affordable gaming laptop." },
+  { id: 7, name: "Logos Chillout", price: "$1,999", image: "/images/lenovo-thinkpad-x1.jpg", category: "business", description: "Ultra-light business laptop." },
+  { id: 8, name: "Logos Strech", price: "$1,299", image: "/images/microsoft-surface-laptop-5.jpg", category: "business", description: "Stylish and portable ultrabook." },
+  { id: 9, name: "Logos Gigabyte", price: "$2,099", image: "/images/gigabyte-aero-16.jpg", category: "creative", description: "Powerful creative laptop." },
+  { id: 10, name: "Logos Waterfall", price: "$1,899", image: "/images/asus-zenbook-duo-14.jpg", category: "creative", description: "Innovative dual-screen laptop." },
+];
+
+type Props = {
+  params: { id: string }
+}
+
+// ✅ App Router requires this
 export async function generateStaticParams() {
   return laptops.map((laptop) => ({
     id: laptop.id.toString(),
   }));
 }
 
+export async function generateMetadata({ params }: Props) {
+  const product = laptops.find((l) => l.id === parseInt(params.id));
+  return {
+    title: product?.name || "Product Not Found",
+    description: product?.description || "",
+  };
+}
+
+// ✅ MUST BE async
 export default function ProductDetailPage({ params }: { params: { id: string } }) {
   const laptopId = parseInt(params.id);
   const laptop = laptops.find((l) => l.id === laptopId);

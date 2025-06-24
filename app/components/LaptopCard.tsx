@@ -1,19 +1,24 @@
-import React from 'react';
-
 import Image from "next/image";
-
 
 interface Laptop {
   id: number;
   name: string;
   price: number;
   imageUrl: string;
-  // add any other properties you expect
+
+  description: string;
+  specs: string;
+  availableQuantity: number;
+  rating: number;
+  releaseYear: number;
+  category: string[];
+  features: string[];
+  colorOptions: string[];
 }
+
 interface Props {
   laptop: Laptop;
 }
-
 
 const LaptopCard = ({ laptop }: Props) => {
   return (
@@ -24,7 +29,7 @@ const LaptopCard = ({ laptop }: Props) => {
         width={300}
         height={200}
         className="laptop-image"
-        />
+      />
       <h3>{laptop.name}</h3>
       <p><strong>Price:</strong> {laptop.price}</p>
       <p><strong>Description:</strong> {laptop.description}</p>

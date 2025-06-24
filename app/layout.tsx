@@ -1,13 +1,12 @@
-"use client";
-import { CartProvider } from "./context/CartContext";
-import './globals.css'; // Or adjust the path if using a different directory
+// app/layout.tsx (or wherever your root layout is)
+import { CartProvider } from ".//store/useCart";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <CartProvider>
-      <html lang="en">
-        <body>{children}</body>
-      </html>
-    </CartProvider>
+    <html lang="en">
+      <body>
+        <CartProvider>{children}</CartProvider>
+      </body>
+    </html>
   );
 }

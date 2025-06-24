@@ -6,10 +6,12 @@ import Navbar from "../components/Navbar"; // Path adjusted
 import Link from "next/link"; // Added for navigation
 
 // Define CartItem type (consistent with your previous useCart store)
-interface CartItem {
+// types/cart.ts
+
+export interface CartItem {
   id: number;
   name: string;
-  price: string; // e.g., "$99.99"
+  price: string; // "$1,299"
   description: string;
   image: string;
   release: number;
@@ -27,8 +29,7 @@ interface CartItem {
   quantity: number;
 }
 
-// Define the expected shape of useCart store
-interface CartStore {
+export interface CartStore {
   cart: CartItem[];
   addToCart: (item: CartItem) => void;
   removeFromCart: (id: number) => void;
@@ -37,6 +38,7 @@ interface CartStore {
   getTotalItems: () => number;
   getTotalPrice: () => number;
 }
+
 
 // Type the component
 const Cart: React.FC = () => {
@@ -75,48 +77,46 @@ const Cart: React.FC = () => {
         ) : (
           <>
             {cart.map((item) => {
- 
-              const itemPrice = item.price.replace("$","");// If this fails, totalItemPrice is NaN
-              
-              const totalItemPrice = itemPrice.replace("$", "").replace(",","") * item.quantity;      
-  
-              return (  
-                <div
-                  key={item.id}
-                  className="flex justify-between items-center border-b border-gray-700 py-2"
-                >
-                  <div>
-                    <p className="text-lg font-semibold">{item.name}</p>
-                    <p className="text-sm text-gray-400">
-                      {item.price} x {item.quantity} = ${totalItemPrice}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
-                      disabled={item.quantity <= 1}
-                      className="bg-gray-700 text-white px-2 py-1 rounded disabled:opacity-50 hover:bg-gray-600"
-                    >
-                      ➖
-                    </button>
-                    <span className="text-lg">{item.quantity}</span>
-                     
-                    <button
-                      onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
-                      className="bg-gray-700 text-white px-2 py-1 rounded hover:bg-gray-600"
-                    >
-                      ➕
-                    </button>
-                    <button
-                      onClick={() => removeFromCart(item.id)}
-                      className="text-red-500 hover:text-red-600"
-                    >
-                      ❌
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
+  const numericPrice = parseFloat(item.price.replace("$", "").replace(",", ""));
+  const totalItemPrice = (numericPrice * item.quantity).toFixed(2);
+
+  return (
+          <div
+            key={item.id}
+            className="flex justify-between items-center border-b border-gray-700 py-2"
+          >
+            <div>
+              <p className="text-lg font-semibold">{item.name}</p>
+              <p className="text-sm text-gray-400">
+                {item.price} x {item.quantity} = ${totalItemPrice}
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                disabled={item.quantity <= 1}
+                className="bg-gray-700 text-white px-2 py-1 rounded disabled:opacity-50 hover:bg-gray-600"
+              >
+                ➖
+              </button>
+              <span className="text-lg">{item.quantity}</span>
+              <button
+                onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                className="bg-gray-700 text-white px-2 py-1 rounded hover:bg-gray-600"
+              >
+                ➕
+              </button>
+              <button
+                onClick={() => removeFromCart(item.id)}
+                className="text-red-500 hover:text-red-600"
+              >
+                ❌
+              </button>
+            </div>
+          </div>
+        );
+      })}
+
             {/* Total Summary */}
             <div className="mt-4">
               <p className="text-lg font-bold text-gray-300">

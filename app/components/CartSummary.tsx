@@ -1,14 +1,16 @@
-"use client"
+interface CartItem {
+  id: number;
+  name: string;
+  price: string;
+  quantity: number;
+  // ...inne pola jeśli masz
+}
 
-import { useCart } from "../context/CartContext";
+interface CartSummaryProps {
+  cart: CartItem[];
+}
 
-export default function CartSummary() {
-  const { cart } = useCart();
-
-  if (!cart) {
-    return <p>Loading cart...</p>; // Prevents crashing when cart is undefined
-  }
-
+export default function CartSummary({ cart }: CartSummaryProps) {
   return (
     <div>
       <h2>Your Cart</h2>
@@ -16,9 +18,7 @@ export default function CartSummary() {
         <p>Your cart is empty.</p>
       ) : (
         <ul>
-          {cart.map((item, index) => (
-            <li key={index}>{item.name} - {item.price}</li>
-          ))}
+          {/* tutaj renderujesz produkty */}
         </ul>
       )}
     </div>

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+
 const laptops = [
   { id: 1, name: "Logos Sun", price: "$1,599", image: "/images/laptop-a.webp", category: "gaming", description: "A powerful gaming laptop." },
   { id: 2, name: "Logos Bright", price: "$1,799", image: "/images/laptop-b.webp", category: "business", description: "Premium ultrabook." },
@@ -14,20 +15,23 @@ const laptops = [
   { id: 10, name: "Logos Waterfall", price: "$1,899", image: "/images/asus-zenbook-duo-14.jpg", category: "creative", description: "Innovative dual-screen laptop." },
 ];
 
-// ✅ Next.js App Router-specific type structure
-type Props = {
-  params: {
-    id: string;
-  };
-};
-
+// ✅ App Router requires this
 export async function generateStaticParams() {
   return laptops.map((laptop) => ({
     id: laptop.id.toString(),
   }));
 }
 
-export default function Page({ params }: Props) {
+export async function generateMetadata({ params }: { params: { id: string } }) {
+  const product = laptops.find((l) => l.id === parseInt(params.id));
+  return {
+    title: product?.name || "Product Not Found",
+    description: product?.description || "",
+  };
+}
+
+// ✅ MUST BE async
+export default function ProductDetailPage({ params }: { params: { id: string } }) {
   const laptopId = parseInt(params.id);
   const laptop = laptops.find((l) => l.id === laptopId);
 
