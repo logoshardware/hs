@@ -22,7 +22,7 @@ export async function generateStaticParams() {
 
 type Props = {
   params: {
-    id: string;
+    id: number
   };
 };
 
